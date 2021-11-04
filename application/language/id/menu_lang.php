@@ -1,0 +1,18 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+$lang['Dashboard'] = 'Dasbor';
+$lang['Home'] = 'Beranda';
+$lang['About Us'] = 'Tentang Kami';
+$lang['How we work'] = 'Perkerjaan Kami';
+$lang['Project'] = 'Proyek';
+$lang['Gallery'] = 'Galeri';
+$lang['Vision & Mission'] = ' Visi & Misi';
+$lang['Organization Chart'] = 'Struktur Organisasi';
+$lang['Our Team'] = 'Tim Kami';
+$lang['Pictures'] = 'Gambar';
+$lang['Biodiversity'] = '';
+$lang['Report'] = 'Laporan';
+$lang['Posting'] = 'Post';
+$lang['Create Album'] = '';
+$lang['Pictures Upload'] = 'Unggah Gambar';
+$lang['Gallery'] = '';
+$lang['Article'] = 'Artikel';

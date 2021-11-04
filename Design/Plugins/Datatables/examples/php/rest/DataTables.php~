@@ -1,0 +1,338 @@
+<?php
+   /**
+    * DataTables PHP libraries.
+    *
+    * PHP libraries for DataTables and DataTables Editor, utilising PHP 5.3+.
+    *
+    *  @author    SpryMedia
+    *  @copyright 2012 SpryMedia ( http://sprymedia.co.uk )
+    *  @license   http://editor.datatables.net/license DataTables Editor
+   *  @link      http://editor.datatables.net
+   */
+  
+  namespace DataTables;
+  if (!defined('DATATABLES')) exit();
+  
+  use
+      DataTables\Database\Query,
+      DataTables\Database\Result;
+  
+  
+  /**
+ 22:  * DataTables Database connection object.
+ 23:  *
+ 24:  * Create a database connection which may then have queries performed upon it.
+ 25:  * 
+ 26:  * This is a database abstraction class that can be used on multiple different
+ 27:  * databases. As a result of this, it might not be suitable to perform complex
+ 28:  * queries through this interface or vendor specific queries, but everything 
+ 29:  * required for basic database interaction is provided through the abstracted
+ 30:  * methods.
+ 31:  */
+  class Database {
+      /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ 34:      * Constructor
+ 35:      */
+  
+      /**
+ 38:      * Database instance constructor.
+ 39:      *  @param string[] $opts Array of connection parameters for the database:
+ 40:      *    <code>
+ 41:      *      array(
+ 42:      *          "user" => "", // User name
+ 43:      *          "pass" => "", // Password
+ 44:      *          "host" => "", // Host name
+ 45:      *          "port" => "", // Port
+ 46:      *          "db"   => "", // Database name
+ 47:      *          "type" => ""  // Datable type: "Mysql", "Postgres" or "Sqlite"
+ 48:      *      )
+ 49:      *    </code>
+ 50:      */
+      function __construct( $opts )
+      {
+          $types = array( 'Mysql', 'Oracle', 'Postgres', 'Sqlite', 'Sqlserver' );
+ 
+          if ( ! in_array( $opts['type'], $types ) ) {
+              throw new Exception(
+                  "Unknown database driver type. Must be one of ".implode(', ', $types),
+                  1
+              );
+          }
+  
+          $this->query_driver = "DataTables\\Database\\Driver".$opts['type'].'Query';
+          $this->_db = isset( $opts['pdo'] ) ?
+              $opts['pdo'] :
+              call_user_func($this->query_driver.'::connect', $opts );
+      }
+  
+  
+  
+      /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ 71:      * Private properties
+ 72:      */
+  
+      /** @var resource */
+      private $_db = null;
+  
+  
+  
+      /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ 80:      * Public methods
+ 81:      */
+  
+      /**
+ 84:      * Commit a database transaction.
+ 85:      *
+ 86:      * Use with {@link transaction} and {@link rollback}.
+ 87:      *  @return self
+ 88:      */
+      public function commit ()
+      {
+          call_user_func($this->query_driver.'::commit', $this->_db );
+          return $this;
+      }
+  
+  
+      /**
+ 97:      * Perform a delete query on a table.
+ 98:      *
+ 99:      * This is a short cut method that creates an update query and then uses
+100:      * the query('delete'), table, where and exec methods of the query.
+101:      *  @param string|string[] $table Table name(s) to act upon.
+102:      *  @param array $where Where condition for what to delete - see {@link
+103:      *    Query::where}.
+104:      *  @return Result
+105:      */
+     public function delete ( $table, $where=null )
+     {
+         return $this->query( 'delete' )
+             ->table( $table )
+             ->where( $where )
+             ->exec();
+     }
+ 
+ 
+     /**
+116:      * Insert data into a table.
+117:      *
+118:      * This is a short cut method that creates an update query and then uses
+119:      * the query('insert'), table, set and exec methods of the query.
+120:      *  @param string|string[] $table Table name(s) to act upon.
+121:      *  @param array $set Field names and values to set - see {@link
+122:      *    Query::set}.
+123:      *  @return Result
+124:      */
+     public function insert ( $table, $set )
+     {
+         return $this->query( 'insert' )
+             ->table( $table )
+             ->set( $set )
+             ->exec();
+     }
+ 
+ 
+     /**
+135:      * Update or Insert data. When doing an insert, the where condition is
+136:      * added as a set field
+137:      *  @param string|string[] $table Table name(s) to act upon.
+138:      *  @param array $set Field names and values to set - see {@link
+139:      *    Query::set}.
+140:      *  @param array $where Where condition for what to update - see {@link
+141:      *    Query::where}.
+142:      *  @return Result
+143:      */
+     public function push ( $table, $set, $where=null )
+     {
+         // Update or insert
+         if ( $this->select( $table, "*", $where )->count() > 0 ) {
+             return $this->update( $table, $set, $where );
+         }
+ 
+         // Add the where condition to the values to set
+         foreach ($where as $key => $value) {
+             if ( ! isset( $set[ $key ] ) ) {
+                 $set[ $key ] = $value;
+             }
+         }
+ 
+         return $this->insert( $table, $set );
+     }
+ 
+ 
+     /**
+163:      * Create a query object to build a database query.
+164:      *  @param string $type Query type - select, insert, update or delete.
+165:      *  @param string|string[] $table Table name(s) to act upon.
+166:      *  @return Query
+167:      */
+     public function query ( $type, $table=null )
+     {
+         return new $this->query_driver( $this->_db, $type, $table );
+     }
+ 
+ 
+     /**
+175:      * Quote a string for a quote. Note you should generally use a bind!
+176:      *  @param string $val Value to quote
+177:      *  @param string $type Value type
+178:      *  @return string
+179:      */
+     public function quote ( $val, $type=\PDO::PARAM_STR )
+     {
+         return $this->_db->quote( $val, $type );
+     }
+ 
+ 
+     /**
+187:      * Create a `Query` object that will execute a custom SQL query. This is
+188:      * similar to the `sql` method, but in this case you must call the `exec()`
+189:      * method of the returned `Query` object manually. This can be useful if you
+190:      * wish to bind parameters using the query `bind` method to ensure data is
+191:      * properly escaped.
+192:      *
+193:      *  @return Result
+194:      *
+195:      *  @example
+196:      *    Safely escape user input
+197:      *    <code>
+198:      *    $db
+199:      *      ->raw()
+200:      *      ->bind( ':date', $_POST['date'] )
+201:      *      ->exec( 'SELECT * FROM staff where date < :date' );
+202:      *    </code>
+203:      */
+     public function raw ()
+     {
+         return $this->query( 'raw' );
+     }
+ 
+ 
+     /**
+211:      * Rollback the database state to the start of the transaction.
+212:      *
+213:      * Use with {@link transaction} and {@link commit}.
+214:      *  @return self
+215:      */
+     public function rollback ()
+     {
+         call_user_func($this->query_driver.'::rollback', $this->_db );
+         return $this;
+     }
+ 
+ 
+     /**
+224:      * Select data from a table.
+225:      *
+226:      * This is a short cut method that creates an update query and then uses
+227:      * the query('select'), table, get, where and exec methods of the query.
+228:      *  @param string|string[] $table Table name(s) to act upon.
+229:      *  @param array $field Fields to get from the table(s) - see {@link
+230:      *    Query::get}.
+231:      *  @param array $where Where condition for what to select - see {@link
+232:      *    Query::where}.
+233:      *  @param array $orderBy Order condition - see {@link
+234:      *    Query::order}.
+235:      *  @return Result
+236:      */
+     public function select ( $table, $field="*", $where=null, $orderBy=null )
+     {
+         return $this->query( 'select' )
+             ->table( $table )
+             ->get( $field )
+             ->where( $where )
+             ->order( $orderBy )
+             ->exec();
+     }
+ 
+ 
+     /**
+249:      * Select distinct data from a table.
+250:      *
+251:      * This is a short cut method that creates an update query and then uses the
+252:      * query('select'), distinct ,table, get, where and exec methods of the
+253:      * query.
+254:      *  @param string|string[] $table Table name(s) to act upon.
+255:      *  @param array $field Fields to get from the table(s) - see {@link
+256:      *    Query::get}.
+257:      *  @param array $where Where condition for what to select - see {@link
+258:      *    Query::where}.
+259:      *  @param array $orderBy Order condition - see {@link
+260:      *    Query::order}.
+261:      *  @return Result
+262:      */
+     public function selectDistinct ( $table, $field="*", $where=null, $orderBy=null )
+     {
+         return $this->query( 'select' )
+             ->table( $table )
+             ->distinct( true )
+             ->get( $field )
+             ->where( $where )
+             ->order( $orderBy )
+             ->exec();
+     }
+ 
+ 
+     /**
+276:      * Execute an raw SQL query - i.e. give the method your own SQL, rather
+277:      * than having the Database classes building it for you.
+278:      *
+279:      * This method will execute the given SQL immediately. Use the `raw()`
+280:      * method if you need the ability to add bound parameters.
+281:      *  @param string $sql SQL string to execute (only if _type is 'raw').
+282:      *  @return Result
+283:      *
+284:      *  @example
+285:      *    Basic select
+286:      *    <code>
+287:      *    $result = $db->sql( 'SELECT * FROM myTable;' );
+288:      *    </code>
+289:      *
+290:      *  @example
+291:      *    Set the character set of the connection
+292:      *    <code>
+293:      *    $db->sql("SET character_set_client=utf8");
+294:      *    $db->sql("SET character_set_connection=utf8");
+295:      *    $db->sql("SET character_set_results=utf8");
+296:      *    </code>
+297:      */
+     public function sql ( $sql )
+     {
+         return $this->query( 'raw' )
+             ->exec( $sql );
+     }
+ 
+ 
+     /**
+306:      * Start a new database transaction.
+307:      *
+308:      * Use with {@link commit} and {@link rollback}.
+309:      *  @return self
+310:      */
+     public function transaction ()
+     {
+         call_user_func($this->query_driver.'::transaction', $this->_db );
+         return $this;
+     }
+ 
+ 
+     /**
+319:      * Update data.
+320:      *
+321:      * This is a short cut method that creates an update query and then uses
+322:      * the query('update'), table, set, where and exec methods of the query.
+323:      *  @param string|string[] $table Table name(s) to act upon.
+324:      *  @param array $set Field names and values to set - see {@link
+325:      *    Query::set}.
+326:      *  @param array $where Where condition for what to update - see {@link
+327:      *    Query::where}.
+328:      *  @return Result
+329:      */
+     public function update ( $table, $set=null, $where=null )
+     {
+         return $this->query( 'update' )
+             ->table( $table )
+             ->set( $set )
+             ->where( $where )
+             ->exec();
+     }
+ };

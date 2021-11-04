@@ -1,0 +1,9 @@
+<?php
+	require_once('opTag.php');
+	require_once('opHeader.php');
+	require_once('clHeader.php');
+	require_once('opKonten.php');
+	require_once('konten.php');
+	require_once('clKonten.php');
+	require_once('footer.php');
+	require_once('clTag.php');

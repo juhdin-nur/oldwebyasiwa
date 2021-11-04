@@ -1,0 +1,194 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+class Dashboard extends CI_Controller{
+	function __construct(){
+		parent::__construct();
+		$this->load->model('mlogin');
+		$this->load->model('managementuser', 'dashboard');
+		$this->auth->cekAuth(); //ngambil auth dari library		
+	}
+	function index()
+	{	
+		$ambil_akun = $this->mlogin->ambiluser($this->session->userdata('uname'));
+		$data = array('title'=>'Yasiwas App',
+			'user'	=> $ambil_akun,
+			'd_isi' => 'Dashboard/Konten/home'
+			);
+		$level = $this->session->userdata('lvl');
+		if($level==1){//admin
+			$this->load->view('Dashboard/Layout/wrapper',$data);
+		}else{ //user
+			$this->load->view('app',$data);
+		}
+	}
+	function home_admin()
+	{
+		$data['title']="Admin Home";
+		$this->load->view('admin/home_admin',$data);
+	}
+	function home()
+	{
+		$data['title']="Admin Home";
+		$this->load->view('Dashboard/Konten/home',$data);
+	}
+	function d_kamus()
+	{
+		$data['title']="Kamus";
+		$this->load->view('Dashboard/Konten/d_kamus',$data);
+	}
+	function attribut_peng() 
+	{
+		$data['title']="Attribut Pengamatan";
+		$this->load->view('Dashboard/Konten/attribut_peng',$data);
+	}
+	function d_pengamatan() 
+	{
+		$data['title']="Entri Pengamatan";
+		$this->load->view('Dashboard/Konten/d_pengamatan',$data);
+	}
+	function t_kelas()
+	{
+		$this->load->view('Dashboard/Konten/tableclass');
+	}
+	function t_order() 
+	{
+		$this->load->view('Dashboard/Konten/tableorder');
+	}
+	function t_family()
+	{
+		$this->load->view('Dashboard/Konten/tablefamily');
+	}
+	function t_genus() 
+	{
+		$this->load->view('Dashboard/Konten/tablegenus');
+	}
+	function t_spesies() 
+	{
+		$this->load->view('Dashboard/Konten/tablespesies');
+	}
+	function tk_complex() 
+	{
+		$this->load->view('Dashboard/Konten/tkcomplex');
+	}
+	function t_siteid() 
+	{
+		$this->load->view('Dashboard/Konten/att_siteid');
+	}
+	function t_tksn() 
+	{
+		$this->load->view('Dashboard/Konten/att_tksn');
+	}
+	function t_tdaerah() 
+	{
+		$this->load->view('Dashboard/Konten/att_tdaerah');
+	}
+	function t_thbuse() 
+	{
+		$this->load->view('Dashboard/Konten/att_hbuse');
+	}
+	function t_tjtem() 
+	{
+		$this->load->view('Dashboard/Konten/att_tjtem');
+	}
+	function d_form() 
+	{
+		$this->load->view('Dashboard/Konten/d_form');
+	}
+	function r_user()
+	{
+		$data['title']="Data User";
+		$this->load->view('Dashboard/Konten/user',$data);
+	}
+	function homepg()
+	{
+		$this->load->view('Dashboard/Konten/homepg');
+	}
+	function aboutpg() {
+		$this->load->view('Dashboard/Konten/aboutpg');
+	}
+	function hwwpg() {
+		$this->load->view('Dashboard/Konten/hwwpg');
+	}
+	function menupg() {
+		$this->load->view('Dashboard/Konten/menupg');
+	}
+	function addnews() {
+		$this->load->view('Dashboard/Konten/homepg');
+	}
+	function login()
+	{
+		$session = $this->session->userdata('isLogin');
+    	if($session == FALSE)
+    	{
+      		$this->load->view('home');
+    	}else
+    	{
+      		redirect('dashboard','refresh');
+    	}
+	}
+	function logout()
+	{
+		$this->session->sess_destroy();
+		redirect(base_url().'login','refresh');
+	}
+    function get_json_data()
+    {
+ 
+        $page = $_REQUEST['page']; // get the requested page
+        $limit = $_REQUEST['rows']; // get how many rows we want to have into the grid
+        $sidx = $_REQUEST['sidx']; // get index row - i.e. user click to sort
+        $sord = $_REQUEST['sord']; // get the direction if(!$sidx) $sidx =1;
+ 
+        $req_param = array (
+                "sort_by" => $sidx,
+                "sort_direction" => $sord,
+                "limit" => null,
+                "search" => $_REQUEST['_search'],
+                "search_field" => isset($_REQUEST['searchField'])?$_REQUEST['searchField']:null,
+                "search_operator" => isset($_REQUEST['searchOper'])?$_REQUEST['searchOper']:null,
+                "search_str" => isset($_REQUEST['searchString'])?$_REQUEST['searchString']:null
+        );
+ 
+        $row = $this->dashboard->get_data($req_param)->result_array();
+        $count = count($row);
+        if( $count >0 ) 
+		{
+            $total_pages = ceil($count/$limit);
+        }
+		else 
+		{
+            $total_pages = 0;
+        }
+        if ($page > $total_pages)
+            $page=$total_pages;
+        $start = $limit*$page - $limit; // do not put $limit*($page - 1)
+ 
+        $req_param['limit'] = array(
+                    'start' => $start,
+                    'end' => $limit
+        );
+ 
+        $result = $this->dashboard->get_data($req_param)->result_array();
+        // sekarang format data dari dB sehingga sesuai yang diinginkan oleh jqGrid dalam hal ini aku pakai JSON format
+        $responce->page = $page;
+        $responce->total = $total_pages;
+        $responce->records = $count;
+        for($i=0; $i<count($result); $i++)
+		{
+ 
+            $responce->rows[$i]['idUser']=$result[$i]['idUser'];
+            // data berikut harus sesuai dengan kolom-kolom yang ingin ditampilkan di view (js)
+            $responce->rows[$i]['cell']=array(
+                    $result[$i]['idUser'],
+                    $result[$i]['userCode'],
+                    $result[$i]['userName'],
+					$result[$i]['password'],
+					$result[$i]['level']);
+ 
+        }
+ 		echo json_encode($responce);
+    }
+    function crud()
+	{
+        $this->dashboard->crud('tuser', 'idUser ','id', array('idUser', 'userCode','userName','password','level'));
+    }
+}

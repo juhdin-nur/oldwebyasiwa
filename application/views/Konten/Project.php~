@@ -1,0 +1,89 @@
+<div class="tabbable">
+	<ul class="nav nav-tabs" id="myTab">
+		<li class="active">
+			<a data-toggle="tab" href="#kamus" style="color:green;">
+				Current Project
+			</a>
+		</li>
+
+		<li>
+			<a data-toggle="tab" href="#profile" style="color:green;">
+				Previous Project
+			</a>
+		</li>
+	</ul>
+	<div class="tab-content">
+	<div id="kamus" class="tab-pane in active">
+	<ul class="list-item">
+                    	<li>
+                    			<a href="<?php echo base_url().'dproject';?>"><div class="kotakImg"><img src="" /></div>
+                    			<h5 id="titlepj">Muara Ancalong Wetlands</h5></a>
+                    			<h6>Published : 22/04/2016 Author : Yasiwa Project Type: Current Project</h6>
+                    			<br>
+                            <p id="captionpj">
+                            	Muara Ancalong is among the oldest sub district of East Kutai, Kelinjau is the capital city. 
+                            	 Kelinjau is approximately 133 km northwest of Samarinda, the capital city of East Kalimantan 
+										Province.
+										<br>
+										Mesangat wetlands have been identified by IUCN since 1993 as the natural habitat of two fresh water crocodiles,
+										 Siamese crocodile (Crocodylus siamensis) and Sunda gharial (Tomistoma schlegelii)
+										</p>
+                      </li>
+                    </ul>
+	</div>
+	<div id="profile" class="tab-pane">
+	<ul class="list-item">
+                    	<li>
+                    			<a href="#"><div class="kotakImg"><img src="Design/jslider/img/ancient-lady/044.jpg" /></div>
+                    			<h5 id="titlepj">Project Muara Ancalong Bekerjasama dengan BBS dan melibatkan masyarakat sekitar dalam konservasi</h5></a>
+                    			<h6>Published : 22/04/2016 Author : Yasiwa</h6>
+                    			<br>
+                            <p id="captionpj">
+                            	Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau
+                            Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau
+                                </p>
+                        </li>
+                        <li>
+                    			<a href="#"><div class="kotakImg"><img src="Design/jslider/img/ancient-lady/044.jpg" /></div>
+                    			<h5 id="titlepj">Project Malinau Bekerjasama dengan BBS dan melibatkan masyarakat sekitar dalam konservasi</h5></a>
+                    			<h6>Published : 22/04/2016 Author : Yasiwa</h6>
+                    			<br>
+                            <p id="captionpj">
+                            	Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau
+                            Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau
+                                </p>
+                        </li>
+                        <li>
+                    			<a href="#"><div class="kotakImg"><img src="Design/jslider/img/ancient-lady/044.jpg" /></div>
+                    			<h5 id="titlepj">Project Malinau Bekerjasama dengan BBS dan melibatkan masyarakat sekitar dalam konservasi</h5></a>
+                    			<h6>Published : 22/04/2016 Author : Yasiwa</h6>
+                    			<br>
+                            <p id="captionpj">
+                            	Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau
+                            Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau
+                                </p>
+                        </li>
+                        <li>
+                    			<a href="#"><div class="kotakImg"><img src="Design/jslider/img/ancient-lady/044.jpg" /></div>
+                    			<h5 id="titlepj">Project Malinau Bekerjasama dengan BBS dan melibatkan masyarakat sekitar dalam konservasi</h5></a>
+                    			<h6>Published : 22/04/2016 Author : Yasiwa</h6>
+                    			<br>
+                            <p id="captionpj">
+                            	Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau
+                            Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau
+                                </p>
+                        </li>
+                        <li>
+                    			<a href="#"><div class="kotakImg"><img src="Design/jslider/img/ancient-lady/044.jpg" /></div>
+                    			<h5 id="titlepj">Project Malinau Bekerjasama dengan BBS dan melibatkan masyarakat sekitar dalam konservasi</h5></a>
+                    			<h6>Published : 22/04/2016 Author : Yasiwa</h6>
+                    			<br>
+                            <p id="captionpj">
+                            	Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau
+                            Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau Ini Pekerjaan kami di Malinau
+                            </p>
+                        </li>
+                    </ul>
+	</div>
+	</div>
+</div>

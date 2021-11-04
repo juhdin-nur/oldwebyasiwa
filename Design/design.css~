@@ -1,0 +1,285 @@
+@charset "utf-8";
+/* CSS Document */
+@font-face{
+	font-family:"Smarty";
+	src:url("Smarty Pants BTN.woff"),url('Smarty Pants BTN.ttf') format('truetype');
+}
+@font-face{
+	font-family: "Monotype Corsiva";
+	src:url("Monotype Corsiva.ttf");
+}
+@font-face{
+	font-family:"JosefinSans-Regular";
+	src:url("JosefinSans-Regular.ttf");
+}
+body{
+	background:#bcff8f url(images/top-header-bg.gif) repeat-x;
+}
+#wrap{
+	width:1350px;
+	height:auto;
+	margin:0 auto;
+/*	border:#00DF00 dotted 3px;*/
+}
+#logo{
+	width:115px;
+	height:115px;
+}
+/*<img src="css/images/LogoYasiwa copy.gif" />*/
+#logo img{
+	margin-left:20px;
+	width:165px;
+	height:155px;
+}
+.logodanjudul{
+	font-family:"Smarty";
+	color:#00AF00;
+	width:100%;
+	border-bottom:#0be93a solid 5px;
+	padding-bottom:10px;
+}
+h1#judul{
+	font-size:104.43px;
+	font-weight:bold;
+	font-style:italic;
+	position:absolute;
+	top:20px;
+	margin:0px auto auto 200px;
+}
+p#djudul{
+	font-weight:bold;
+	font-style:italic;
+	font-size:20px;
+	position:relative;
+	margin:0px auto auto 190px;
+}
+#slide{
+	margin:0px auto 0 auto;
+	width: 783px;
+	height:276px;
+	background:rgba(255,255,255,0.4);
+	position:relative;
+}
+/*#top_menu{
+	width:100%;
+	height:44px;
+	margin:0 auto;
+	background:#0be93a;
+	position:absolute;
+}
+ul.mainmenu{
+	display:block;
+	float:left;
+	margin-left:320px;
+}
+ul.mainmenu li{
+	display:inline;
+	float:left;
+}
+ul.mainmenu a{
+	display:block;
+	vertical-align:middle;
+	padding:7px 15px;
+	color:#FFFFFF;
+	text-decoration:none;
+	font-size:20px;
+	font-weight:bold;
+}*/
+.clearfix{
+	clear:both;
+}
+/*ul.mainmenu a:hover,ul.mainmenu li.active a
+{
+	background:url(images/menu_aktif.gif) repeat-x;
+}
+ul.sublevel1{
+	position:absolute;
+	display:none;
+}
+ul.sublevel1{
+	position:relative;
+}
+ul.sublevel1 li a{
+	font:Arial, Helvetica, sans-serif;
+	font-size:13px;
+	width:174px;
+}
+ul.sublevel1 li:hover{
+    left: 0px;
+    padding: 3px;
+    top: 30px;
+    width: 160px;
+}
+ul.mainmenu li:hover ul.sublevel1
+{
+	position:absolute;
+	background-color: #0be93a;
+	border:#FFFBF0 dashed 1px;
+	border-top:none;
+	display:block;
+    padding: 3px;
+    top: 43px;
+    width: 180px;
+	z-index:9999;
+}*/
+.konten{
+	top: -45px;
+	margin:44px auto 0 auto;
+	position:relative;
+	padding:0 auto;
+	border:#A0A0A4 dashed 1px;
+	border-left:#A0A0A4 solid 3px;
+}
+#left_konten{
+	margin:2px auto 0 0px;
+	float:left;
+	width:273px;
+	min-height:300px;
+	padding-left:0px;
+
+}
+#mainkonten{
+
+	margin:0px auto;
+	width:769px;
+	min-height:300px;
+	float:left;
+	padding:0px 0px 20px 20px;
+	
+}
+#mainkonten p{
+	width:100%;
+}
+#visi{
+	position:absolute;
+	top:55px;
+	right:19px;
+	font-size:30px;
+	font-family:"Monotype Corsiva";
+	width:580px;
+	font-weight: bold;
+	text-align:right;
+}
+#right_menu{
+	margin:2px auto 0 15px;
+	float:left;
+	width:273px;
+	min-height:300px;
+	padding-left:5px;
+
+}
+#footer
+{
+	background:rgba(71,255,7,0.5);
+	width:100%;
+	height:100%;
+	font-size:13px;
+	font-weight:bold;
+	line-height:8px;
+	text-align:center;
+	padding:10px;
+	margin-top: -45px;
+	margin-bottom:0px;
+	color:#FFFFFF;
+}
+#footer p{
+
+}
+.gallery{
+	margin-top:-19px;
+	border:#FFFBF0 solid 1px;
+	height:auto;
+	width:99.9%;
+	background:rgba(255,255,255,0.4);
+}
+ul.listGallery{
+	margin-left:-37px;
+}
+ul.listGallery li{
+	width:121.9px;
+	height:200px;
+	background:rgba(255,255,255,0.5);
+	border:#00DF55 solid 1px;
+	display:block;
+	float:left;
+	margin:0.7px;
+	text-align:center;
+	font-size:80%;
+	font-weight:bold;
+}
+ul.listGallery li p{
+	color:#0be93a;
+	font-weight:bold;
+}
+ul.listGallery li p.jfoto_item{
+	margin-top:5px;
+}
+.kotak_img{
+	width:100%;
+	height:90px;
+	border:#FFF solid 1px;
+}
+.kotak_img img{
+	background:#FFFFFF;
+	width:100%;
+	height:100%;
+}
+.boxMainKonten{
+	border:#808080 solid 2px;
+	width:100%;
+	height:400px;
+}
+ul.list-item{
+	display:inline-block;
+	margin-left:-40px;
+}
+ul.list-item li{
+	margin-left:5px;
+	margin-top:5px;
+	display:block;
+	float:left;
+	width:100%;
+	height:auto;
+	/*border:#808080 solid 1px;*/
+	border-bottom:#008000 dashed 1px;
+	margin-bottom: 5px;
+	padding-bottom: 10px;
+}
+ul.list-item .kotakImg{
+	width:150px;
+	height:150px;
+	border:#FF0 solid 1px;
+	background:url(images/no_image.png) -75px;
+	margin: 10px;
+}
+ul.list-item img{
+	float:left;
+	width:100%;
+	height:100%;
+}
+ul.list-item li #captionpj{
+	position: relative;
+	font-size:13px;
+	margin-left: 170px;
+	width: 76%;
+	margin-top: -20px;
+}
+ul.list-item li #titlepj{
+	margin-top:-160px;
+	margin-left:170px;
+	font-size:17px;
+	font-weight: bold;
+}
+ul.list-item li h6{
+	font-weight: bold;
+	position: relative;
+	margin-top: -5px;
+	margin-left: 170px;
+	font-size: 11px;
+}
+ul.list-item li a{
+	color:#00AF00;
+}
+ul.list-item li a:hover{
+	color:#000000;
+}

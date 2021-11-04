@@ -1,0 +1,38 @@
+<html lang="en">
+<head>
+  <title>Jquery select2 ajax autocomplete example code with demo</title>
+ 
+  <script src="assets/js/jquery.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+</head>
+<body>
+
+<div style="width:520px;margin:0px auto;margin-top:30px;height:500px;">
+  <h2>Select Box with Search Option Jquery Select2.js</h2>
+  <select class="itemName form-control" style="width:500px" name="itemName"></select>
+</div>
+
+<script type="text/javascript">
+var orang = [{ id: 0, text: 'enhancement' }, { id: 1, text: 'bug' }, { id: 2, text: 'duplicate' }, { id: 3, text: 'invalid' }, { id: 4,text: 'wontfix' }];
+      $('.itemName').select2({
+        theme: "classic",
+        allowClear:true,
+        placeholder: 'Select an item',
+        data:orang
+        // ajax: {
+        //   url: '/ajaxpro.php',
+        //   dataType: 'json',
+        //   delay: 250,
+        //   processResults: function (data) {
+        //     return {
+        //       results: data
+        //     };
+        //   },
+        //   cache: true
+        // }
+      });
+</script>
+
+</body>
+</html>
